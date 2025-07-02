@@ -1,0 +1,22 @@
+{
+  "name": "mern-ecommerce",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Ecommerce developed using MERN Technology",
+  "main": "app.js",
+  "scripts": {
+    "start": "node backend/app.js",
+    "dev": "NODE_ENV=DEVELOPMENT nodemon backend/app.js",
+    "prod": "NODE_ENV=PRODUCTION nodemon backend/app.js"
+  },
+  "author": "Bianca Gabriela Asavoaei",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^5.1.0",
+    "mongoose": "^8.16.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
