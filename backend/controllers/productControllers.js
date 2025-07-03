@@ -3,9 +3,11 @@ import mongoose from "mongoose";
 import ErrorHandler from "../utils/errorHandler.js";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import APIFilters from "../utils/apiFilters.js";
+import qs from 'qs';
 
 export const getProducts = catchAsyncErrors( async (req, res) => {
-  const apiFilters = new APIFilters(Product, req?.query).search();
+  const parsedQuery = qs.parse(req._parsedUrl.query);
+  const apiFilters = new APIFilters(Product, parsedQuery).search().filters();
 
   let products = await apiFilters.query;
 
