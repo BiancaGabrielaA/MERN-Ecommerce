@@ -62,10 +62,13 @@ export const updateProduct = catchAsyncErrors( async (req, res) => {
 });
 
 export const newProduct =  catchAsyncErrors(async (req, res) => {
-    const product = await Product.create(req.body);
-    return res.status(200).json({
-        product
-    })
+
+  req.body.user = req.user._id;
+  
+  const product = await Product.create(req.body);
+  return res.status(200).json({
+      product
+  })
 });
 
 export const deleteProduct = catchAsyncErrors( async (req, res) => {
