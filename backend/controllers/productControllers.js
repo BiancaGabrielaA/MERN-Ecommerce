@@ -2,13 +2,19 @@ import Product from "../models/product.js"
 import mongoose from "mongoose";
 import ErrorHandler from "../utils/errorHandler.js";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
+import APIFilters from "../utils/apiFilters.js";
 
 export const getProducts = catchAsyncErrors( async (req, res) => {
-    const products = await Product.find();
+  const apiFilters = new APIFilters(Product, req?.query).search();
 
-    res.status(200).json({
-        products
-    })
+  let products = await apiFilters.query;
+
+  let filteredProductsCount = products.length;
+
+  res.status(200).json({
+    filteredProductsCount,
+    products
+  })
 });
 
 export const getProductDetails = catchAsyncErrors(async (req, res, next) => {
