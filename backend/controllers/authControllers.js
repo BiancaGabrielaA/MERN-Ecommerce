@@ -4,6 +4,7 @@ import ErrorHandler from "../utils/errorHandler.js";
 import sendToken from "../utils/sendToken.js";
 import getResetPasswordTemplate from "../utils/emailTemplates.js"
 import sendEmail from "../utils/sendEmail.js"
+import crypto from "crypto"
 
 /// /api/v1/register
 export const registerUser = catchAsyncErrors( async(req, res, next) => {
@@ -74,7 +75,9 @@ export const forgotPassword = catchAsyncErrors( async(req, res, next) => {
               message
         })
 
-        sendToken(user, 200, res);
+        res.status(200).json({
+            message: `Email sent to ${user.email}`
+        })
     }catch(error) {
         user.resetPasswordExpire = undefined;
         user.resetPasswordToken = undefined;
@@ -84,4 +87,31 @@ export const forgotPassword = catchAsyncErrors( async(req, res, next) => {
     }
 
    
+})
+
+export const resetPassword = catchAsyncErrors(async(req, res, next) => {
+
+    const resetPasswordToken = crypto.createHash("sha256").update(req.params.token).digest('hex');
+
+    const user = await User.findOne({
+        resetPasswordToken,
+        resetPasswordExpire: { $gt: Date.now()}
+    })
+
+    if(!user) {
+        return next(new ErrorHandler("Password reset token is invalid or has been expired", 400));
+    }
+
+    if(req.body.password !== req.body.confirmPassword) {
+        return next(new ErrorHandler("Password does not match", 400));
+    }
+
+    user.password = req.body.password
+
+    user.resetPasswordExpire = undefined;
+    user.resetPasswordToken = undefined;
+    await user.save();
+
+    sendToken(user, 200, res);
+
 })
