@@ -7,13 +7,18 @@ import qs from 'qs';
 
 export const getProducts = catchAsyncErrors( async (req, res) => {
   const parsedQuery = qs.parse(req._parsedUrl.query);
+  const resPerPage = 4;
   const apiFilters = new APIFilters(Product, parsedQuery).search().filters();
 
   let products = await apiFilters.query;
 
   let filteredProductsCount = products.length;
 
+  apiFilters.pagination(resPerPage);
+  products = await apiFilters.query.clone();
+
   res.status(200).json({
+    resPerPage,
     filteredProductsCount,
     products
   })

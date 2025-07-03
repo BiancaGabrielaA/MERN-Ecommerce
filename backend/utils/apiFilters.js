@@ -21,7 +21,7 @@ class APIFilters {
         const queryCopy = { ...this.queryStr };
       
         // Remove fields that are not filters
-        const fieldsToRemove = ['keyword'];
+        const fieldsToRemove = ['keyword', 'page'];
         fieldsToRemove.forEach((el) => delete queryCopy[el]);
       
         // Convert to MongoDB operators: gte -> $gte
@@ -31,7 +31,15 @@ class APIFilters {
         console.log(queryStr);
         this.query = this.query.find(JSON.parse(queryStr));
         return this;
-      }
+    }
+
+    pagination(resPerPage) {
+        const currentPage = Number(this.queryStr.page) || 1;
+        const skip = resPerPage * (currentPage - 1);
+
+        this.query = this.query.limit(resPerPage).skip(skip);
+        return this;
+    }
 }
 
 export default APIFilters;
