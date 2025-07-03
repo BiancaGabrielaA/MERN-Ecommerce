@@ -2,6 +2,8 @@ import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import User from "../models/user.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import sendToken from "../utils/sendToken.js";
+import getResetPasswordTemplate from "../utils/emailTemplates.js"
+import sendEmail from "../utils/sendEmail.js"
 
 /// /api/v1/register
 export const registerUser = catchAsyncErrors( async(req, res, next) => {
@@ -43,4 +45,43 @@ export const logoutUser = catchAsyncErrors( async(req, res, next) => {
     res.status(200).json({
         message: "Logged out"
     })
+})
+
+
+///Forgot password api/v1/password/forgot
+export const forgotPassword = catchAsyncErrors( async(req, res, next) => {
+
+    const user = await User.findOne({email: req.body.email})
+    if(!user){
+        return next(new ErrorHandler("Invalid email or password", 401))
+    }
+
+    ///Get reset password token
+    const resetToken = user.getResetPasswordToken();
+
+    await user.save();
+
+    ///Create reset password url
+    const resetUrl = `${process.env.FRONTEND_URL}/api/v1/password/reset/${resetToken}`;
+
+    const message = getResetPasswordTemplate(user?.name, resetUrl);
+
+    try{
+
+        await sendEmail({
+              email: user.email,
+              subject: "ShopIT Password Recovery",
+              message
+        })
+
+        sendToken(user, 200, res);
+    }catch(error) {
+        user.resetPasswordExpire = undefined;
+        user.resetPasswordToken = undefined;
+
+        await user.save();
+        return next(new ErrorHandler(error?.message, 500))
+    }
+
+   
 })
