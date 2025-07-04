@@ -144,3 +144,68 @@ export const updatePassword = catchAsyncErrors(async ( req, res, next) => {
         success: true
     })
 })
+
+export const updateProfile = catchAsyncErrors(async ( req, res, next) => {
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email,
+    }
+
+    const user =  await User.findByIdAndUpdate(req.user._id, newUserData, {new: true})
+
+    res.status(200).json({
+        user
+    })
+})
+
+export const allUsers = catchAsyncErrors(async ( req, res, next) => {
+    const users = await User.find();
+
+    res.status(200).json({
+        users
+    })
+})
+
+
+export const getUserDetails = catchAsyncErrors(async ( req, res, next) => {
+    const user = await User.findById(req.params.id);
+
+    if(!user){
+        return next(new ErrorHandler(`User not found with id: ${req.params.id}`))
+    }
+    res.status(200).json({
+        user
+    })
+})
+
+export const updateUser = catchAsyncErrors(async ( req, res, next) => {
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email,
+        role: req.body.role
+    }
+
+    const user =  await User.findByIdAndUpdate(req.params.id, newUserData, {new: true})
+
+    res.status(200).json({
+        user
+    })
+})
+
+export const deleteUser = catchAsyncErrors(async ( req, res, next) => {
+  
+    const user =  await User.findById(req.params.id);
+
+
+    if(!user){
+        return next(new ErrorHandler(`User not found with id: ${req.params.id}`))
+    }
+
+    ///Remove user avatar from cloudinary - TODO
+
+    await user.deleteOne();
+
+    res.status(200).json({
+        success: true
+    })
+})

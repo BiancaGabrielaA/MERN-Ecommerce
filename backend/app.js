@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import errorMiddleware from "./middlewares/errors.js";
+import bodyParser from "body-parser";
 
 process.on('uncaughtException', (err) => {
     console.log(`ERROR2 ${err}`);
@@ -19,6 +20,7 @@ connectDatabase();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(bodyParser.json());
 
 ///import all routes
 
