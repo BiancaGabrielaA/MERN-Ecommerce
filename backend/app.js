@@ -34,7 +34,7 @@ app.use("/api/v1", orderRoutes);
 
 app.use(errorMiddleware);
 
-const server = app.listen(3000, () => {
+const server = app.listen(process.env.PORT, () => {
     console.log(`Server started on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode `);
 });
 
