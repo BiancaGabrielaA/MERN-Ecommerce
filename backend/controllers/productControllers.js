@@ -5,7 +5,7 @@ import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import APIFilters from "../utils/apiFilters.js";
 import qs from 'qs';
 
-export const getProducts = catchAsyncErrors( async (req, res) => {
+export const getProducts = catchAsyncErrors( async (req, res, next) => {
   const parsedQuery = qs.parse(req._parsedUrl.query);
   const resPerPage = 4;
   const apiFilters = new APIFilters(Product, parsedQuery).search().filters();

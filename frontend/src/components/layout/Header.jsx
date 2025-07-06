@@ -1,6 +1,14 @@
-import React from 'react'
+import React, { useState} from 'react'
 
 const Header = () => {
+    const [keyword, setKeyword] = useState("")
+
+    const submitHandler = (e) => {
+        e.preventDefault()
+        // Do something with keyword (e.g., navigate or fetch)
+        console.log("Search for:", keyword)
+    }
+
     return (
         <nav className="navbar row">
             <div className="col-12 col-md-3 ps-5">
@@ -11,27 +19,28 @@ const Header = () => {
                 </div>
             </div>
             <div className="col-12 col-md-6 mt-2 mt-md-0">
-                <form action="your_search_action_url_here" method="get">
-                <div className="input-group">
-                    <input
-                    type="text"
-                    id="search_field"
-                    aria-describedby="search_btn"
-                    className="form-control"
-                    placeholder="Enter Product Name ..."
-                    name="keyword"
-                    value=""
-                    />
-                    <button id="search_btn" className="btn" type="submit">
-                    <i className="fa fa-search" aria-hidden="true"></i>
-                    </button>
-                </div>
+                <form onSubmit={submitHandler}>
+                    <div className="input-group">
+                        <input
+                            type="text"
+                            id="search_field"
+                            aria-describedby="search_btn"
+                            className="form-control"
+                            placeholder="Enter Product Name ..."
+                            name="keyword"
+                            value=""
+                            onChange={(e) => setKeyword(e.target.value)}
+                        />
+                        <button id="search_btn" className="btn" type="submit">
+                           <i className="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </form>
             </div>
             <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
                 <a href="/cart" style={{ textDecoration: "none" }}>
                 <span id="cart" className="ms-3"> Cart </span>
-                <span classNameName="ms-1" id="cart_count">0</span>
+                <span className="ms-1" id="cart_count">0</span>
                 </a>
 
                 <div className="ms-4 dropdown">
