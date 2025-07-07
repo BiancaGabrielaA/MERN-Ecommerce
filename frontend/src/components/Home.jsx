@@ -15,10 +15,12 @@ const Home = () => {
     const keyword = searchParams.get("keyword") || 1;
     const min = searchParams.get("min");
     const max = searchParams.get("max");
+    const category = searchParams.get("category");
     const params = { page, keyword};
 
     min !== null && (params.min = min);
     max !== null && (params.max = max);
+    category !== null && (params.category = category);
 
     const { data, isLoading, error, isError} = useGetProductsQuery(params);
 
