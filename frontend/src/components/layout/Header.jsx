@@ -1,14 +1,8 @@
-import React, { useState} from 'react'
+import React from 'react'
+import Search from './Search'
 
 const Header = () => {
-    const [keyword, setKeyword] = useState("")
-
-    const submitHandler = (e) => {
-        e.preventDefault()
-        // Do something with keyword (e.g., navigate or fetch)
-        console.log("Search for:", keyword)
-    }
-
+    
     return (
         <nav className="navbar row">
             <div className="col-12 col-md-3 ps-5">
@@ -19,23 +13,7 @@ const Header = () => {
                 </div>
             </div>
             <div className="col-12 col-md-6 mt-2 mt-md-0">
-                <form onSubmit={submitHandler}>
-                    <div className="input-group">
-                        <input
-                            type="text"
-                            id="search_field"
-                            aria-describedby="search_btn"
-                            className="form-control"
-                            placeholder="Enter Product Name ..."
-                            name="keyword"
-                            value=""
-                            onChange={(e) => setKeyword(e.target.value)}
-                        />
-                        <button id="search_btn" className="btn" type="submit">
-                           <i className="fa fa-search" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </form>
+                 <Search />
             </div>
             <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
                 <a href="/cart" style={{ textDecoration: "none" }}>
