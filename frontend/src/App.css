@@ -563,3 +563,43 @@ footer {
   border-radius: 0.3rem;
   color: #fa9c23;
 }
+
+/* Pagination container */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  list-style: none;
+  padding: 0;
+}
+
+/* Pagination items */
+.pagination li {
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+/* Hover effect */
+.pagination li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Active page */
+.pagination li.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Disabled navigation buttons */
+.pagination li.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

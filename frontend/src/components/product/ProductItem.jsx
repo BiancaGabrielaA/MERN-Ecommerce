@@ -10,7 +10,7 @@ const ProductItem = ({product}) => {
             <div className="card p-3 rounded">
             <img
                 className="card-img-top mx-auto"
-                src={product?.images[0].url}
+                src={product?.images[0]?.url}
                 alt={product?.name}
             />
             <div

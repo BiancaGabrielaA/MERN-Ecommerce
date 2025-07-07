@@ -6,7 +6,12 @@ export const productApi = createApi({
     keepUnusedDataFor: 30,
     endpoints: (builder) => ({
         getProducts: builder.query({
-            query: (params) =>  "/products",
+            query: (params) => ({
+              url: "/products",
+              params: {
+                page: params?.page
+              }
+            })
         }),
         getProductDetails: builder.query({
             query: (id) =>  `/products/${id}`,
