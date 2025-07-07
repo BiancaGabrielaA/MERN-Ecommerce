@@ -26,7 +26,7 @@ const ProductItem = ({product}) => {
                     size={20}
                     SVGstyle={{ display: "inline-block" }}
                 />
-                <span id="no_of_reviews" className="pt-2 ps-2"> {product?.numOfReviews} </span>
+                <span id="no_of_reviews" className="pt-2 ps-2"> {product?.numofReviews} </span>
                 </div>
                 <p className="card-text mt-2">{product?.price}</p>
                 <Link to={`/product/${product?._id}`} id="view_btn" className="btn btn-block">
